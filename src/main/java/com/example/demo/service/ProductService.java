@@ -79,11 +79,11 @@ public class ProductService {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new BaseResponseModel("success","successfully delete product id"+productId));
     }
-    public ResponseEntity<BaseResponseWithDataModel> searchProducts(String name) {
+    public ResponseEntity<BaseResponseWithDataModel> searchProducts(String name,Double minPrice,Double maxPrice) {
         String formattedName = name != null?
                 name.toLowerCase()
                 : name;
-        List<Product> product = productRepository.findProductsWithFilters(formattedName);
+        List<Product> product = productRepository.findProductsWithFilters(formattedName,minPrice,maxPrice);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new BaseResponseWithDataModel("success","product retrive",product));
     }
