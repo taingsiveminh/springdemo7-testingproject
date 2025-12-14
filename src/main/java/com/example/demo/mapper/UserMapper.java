@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,7 +20,20 @@ public class UserMapper {
         entity.setRole(dto.getRole());
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());
+        entity.setPassword(dto.getPassword());
         entity.setCreatedAt(LocalDateTime.now());
+        return entity;
+    }
+    public User userEntityFromDto(User entity, UserDto dto ) {
+        if (entity == null || dto ==null){
+            return null;
+        }
+        entity.setName(dto.getName());
+        entity.setEmail(dto.getEmail());
+        entity.setPassword(dto.getPassword());
+        entity.setRole(dto.getRole());
+        entity.setAddress(dto.getAddress());
+
         return entity;
     }
     public UserResponseDto toDto(User Entity) {
@@ -36,6 +48,7 @@ public class UserMapper {
 
         return dto;
     }
+
     public List<UserResponseDto> toDtoList(List<User> entities) {
         if (entities == null || entities.isEmpty()) {
             return new ArrayList<>();

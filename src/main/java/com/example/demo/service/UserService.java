@@ -7,6 +7,7 @@ import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
 import com.example.demo.dto.UserDto;
 import com.example.demo.repository.UserRepository;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,25 +55,31 @@ public class UserService {
                 .body(new BaseResponseModel("success","successfully created user"));
     }
     public ResponseEntity<BaseResponseModel> updateUser(UserDto payload, Long userId) {
-        Optional<User> existing = userRepository.findById(userId);
-        // if user not found then reponse 404
-            if(existing.isEmpty()) {
-               return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                       .body(new BaseResponseModel("fail","user not found with id: " + userId));
-            }
-        //modify values
-        User updatedUser = existing.get();
-            updatedUser.setEmail(payload.getEmail());
-            updatedUser.setName(payload.getName());
-            updatedUser.setAge(payload.getAge());
-            updatedUser.setAddress(payload.getAddress());
-            updatedUser.setRole(payload.getRole());
-            userRepository.save(updatedUser);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new BaseResponseModel("success","successfully update user"));
+        Optional<User> existing = userRepository.findById(userId);
+
+        // if user not found -> 404
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseModel("fail",
+                            "user not found with id: " + userId));
+        }
+
+        // get existing user
+        User updatedUser = existing.get();
+
+        // map dto -> entity
+        mapper.userEntityFromDto(updatedUser,payload);
+
+        // save to DB
+        userRepository.save(updatedUser);
+
+        return ResponseEntity.ok(
+                new BaseResponseModel("success", "successfully update user")
+        );
     }
-   
+
+
     //delete user method
     // Business logic for user management can be added here
     public ResponseEntity<BaseResponseModel> deleteUser(Long userId) {
