@@ -21,7 +21,7 @@ public class UserMapper {
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
-        entity.setCreatedAt(LocalDateTime.now());
+
         return entity;
     }
     public User userEntityFromDto(User entity, UserDto dto ) {
@@ -45,6 +45,8 @@ public class UserMapper {
         dto.setAge(Entity.getAge());
         dto.setAddress(Entity.getAddress());
         dto.setRole(Entity.getRole());
+        dto.setCreatedAt(Entity.getCreatedAt());
+        dto.setUpdatedAt(Entity.getUpdatedAt());
 
         return dto;
     }

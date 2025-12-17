@@ -46,8 +46,18 @@ public class UserService {
                 .body(new BaseResponseWithDataModel("success","user found",dto));
     }
     public ResponseEntity<BaseResponseModel> createUser(UserDto payload) {
-        User user = mapper.toEntity(payload);
+        //validation is username is existing
+        if(userRepository.existsByName(payload.getName())){
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new BaseResponseModel("fail","username is already existing"));
+        }
+        //validation is email is existing
+        if(userRepository.existsByEmail(payload.getEmail())){
+            return  ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new BaseResponseModel("fail","email is already existing "));
+        }
 
+        User user = mapper.toEntity(payload);
         userRepository.save(user);
 
         return ResponseEntity
