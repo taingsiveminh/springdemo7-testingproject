@@ -24,4 +24,13 @@ public class Product {
     @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+    }
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

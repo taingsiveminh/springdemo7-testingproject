@@ -1,8 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.product.ProductDto;
 import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
-import com.example.demo.model.ProductModel;
+
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +34,12 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createProduct(@RequestBody ProductModel payload) {
+    public ResponseEntity<BaseResponseModel> createProduct(@RequestBody ProductDto payload) {
         return productService.createProduct(payload);
     }
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponseModel> updateProduct(@PathVariable("id") Long productId,@RequestBody
-    ProductModel payload) {
+    ProductDto payload) {
         return productService.updateProduct(productId,payload);
     }
     @DeleteMapping("/{id}")

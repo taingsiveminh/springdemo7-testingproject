@@ -21,7 +21,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             @Param("name")String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice
-
-
     );
+    Boolean existsByProductName(String productName);
 }
