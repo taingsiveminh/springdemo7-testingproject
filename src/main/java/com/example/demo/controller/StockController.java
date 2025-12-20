@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.stock.StockDto;
 import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
-import com.example.demo.model.stock.StockModel;
-import com.example.demo.model.stock.UpdateStockModel;
+import com.example.demo.dto.stock.UpdateStockDto;
 import com.example.demo.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +18,21 @@ public class StockController {
     @GetMapping
     public ResponseEntity<BaseResponseWithDataModel> listStock(){
         return stockService.listStock();
+    }
 
+    @GetMapping("{id}")
+    public ResponseEntity<BaseResponseWithDataModel> getStock(@PathVariable("id") Long stockId){
+        return stockService.getStock(stockId);
     }
 
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createdStock(@RequestBody StockModel payload) {
+    public ResponseEntity<BaseResponseModel> createdStock(@RequestBody StockDto payload) {
         return stockService.createStock(payload);
     }
     @PatchMapping("{id}")
     public ResponseEntity<BaseResponseModel> adjustQuantity(@PathVariable("id") long stockId,@RequestBody
-    UpdateStockModel payload){
+    UpdateStockDto payload){
         return stockService.adjustQuantity(stockId,payload);
-
     }
     @DeleteMapping("{id}")
     public ResponseEntity<BaseResponseModel> deleteStock(@PathVariable("id") long stockId) {
