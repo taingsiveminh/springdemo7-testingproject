@@ -6,6 +6,7 @@ import com.example.demo.mapper.StockMapper;
 import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
 import com.example.demo.dto.stock.UpdateStockDto;
+import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     @Autowired
     private StockMapper mapper;
@@ -44,6 +48,11 @@ public class StockService {
 
 
     public ResponseEntity<BaseResponseModel> createStock(StockDto stock) {
+        if (!productRepository.existsById(stock.getProductId())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseModel("fail","product not found: "+stock.getProductId()));
+        }
+
         Stock stockEntity = mapper.toEntity(stock);
         stockRepository.save(stockEntity);
 
