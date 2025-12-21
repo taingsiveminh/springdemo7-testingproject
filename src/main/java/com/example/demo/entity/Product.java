@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -24,10 +25,14 @@ public class Product {
     @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Stock> stock;
+
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
     }
+
     @PreUpdate
     public void preUpdate(){
         this.updatedAt = LocalDateTime.now();
