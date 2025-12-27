@@ -28,6 +28,15 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Stock> stock;
 
+    @Transient
+    public Long getTotalStock(){
+        if(stock == null) return 0L;
+
+        return stock.stream()
+                .mapToLong(stock -> stock.getQuantity())
+                .sum();
+    }
+
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
