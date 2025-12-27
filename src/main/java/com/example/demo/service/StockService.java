@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.stock.StockDto;
+import com.example.demo.entity.Product;
 import com.example.demo.entity.Stock;
 import com.example.demo.mapper.StockMapper;
 import com.example.demo.model.BaseResponseModel;
@@ -48,12 +49,13 @@ public class StockService {
 
 
     public ResponseEntity<BaseResponseModel> createStock(StockDto stock) {
-        if (!productRepository.existsById(stock.getProductId())){
+        Optional<Product> existingProduct = productRepository.findById(stock.getProductId());
+        if (existingProduct.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new BaseResponseModel("fail","product not found: "+stock.getProductId()));
         }
 
-        Stock stockEntity = mapper.toEntity(stock);
+        Stock stockEntity = mapper.toEntity(stock,existingProduct.get());
         stockRepository.save(stockEntity);
 
         return ResponseEntity.status(HttpStatus.CREATED)
