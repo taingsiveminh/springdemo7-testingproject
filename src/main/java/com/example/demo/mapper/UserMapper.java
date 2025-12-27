@@ -1,11 +1,10 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.UserDto;
-import com.example.demo.dto.UserResponseDto;
+import com.example.demo.dto.user.UserDto;
+import com.example.demo.dto.user.UserResponseDto;
 import com.example.demo.entity.User;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
