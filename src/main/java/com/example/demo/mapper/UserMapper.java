@@ -1,7 +1,9 @@
 package com.example.demo.mapper;
 
+import com.example.demo.dto.supplier.UpdateSupplierDto;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.dto.user.UserResponseDto;
+import com.example.demo.entity.Supplier;
 import com.example.demo.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -59,4 +61,6 @@ public class UserMapper {
                 .map(user -> this.toDto(user))
                 .collect(Collectors.toList());
     }
+
+
 }

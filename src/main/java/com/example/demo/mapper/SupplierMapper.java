@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.supplier.SupplierDto;
 import com.example.demo.dto.supplier.SupplierResponseDto;
+import com.example.demo.dto.supplier.UpdateSupplierDto;
 import com.example.demo.entity.Supplier;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 public class SupplierMapper {
     public Supplier toEntity(SupplierDto dto) {
         Supplier entity = new Supplier();
+
 
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
@@ -26,11 +28,14 @@ public class SupplierMapper {
     public SupplierResponseDto toDto(Supplier entity) {
         SupplierResponseDto dto = new SupplierResponseDto();
 
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setAddress(entity.getAddress());
         dto.setPhone(entity.getPhone());
         dto.setEmail(entity.getEmail());
-        dto.setRating(dto.getRating());
+        dto.setRating(entity.getRating());
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setUpdatedAt(entity.getUpdatedAt());
 
         return dto;
 
@@ -44,5 +49,15 @@ public class SupplierMapper {
                 .stream()
                 .map(supplier -> this.toDto(supplier))
                 .collect(Collectors.toList());
+    }
+    public void updateEntityFromDto(Supplier entity, UpdateSupplierDto dto){
+        if (entity == null || dto ==null){
+            return;
+        }
+        entity.setName(dto.getName());
+        entity.setAddress(dto.getAddress());
+        entity.setRating(dto.getRating());
+        entity.setEmail(dto.getEmail());
+        entity.setPhone(dto.getPhone());
     }
 }
