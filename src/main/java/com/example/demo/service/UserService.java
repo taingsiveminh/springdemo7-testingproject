@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.user.UpdateUserDto;
 import com.example.demo.dto.user.UserResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
@@ -62,7 +63,7 @@ public class UserService {
                 .status(HttpStatus.CREATED)
                 .body(new BaseResponseModel("success","successfully created user"));
     }
-    public ResponseEntity<BaseResponseModel> updateUser(UserDto payload, Long userId) {
+    public ResponseEntity<BaseResponseModel> updateUser(UpdateUserDto payload, Long userId) {
 
         Optional<User> existing = userRepository.findById(userId);
 

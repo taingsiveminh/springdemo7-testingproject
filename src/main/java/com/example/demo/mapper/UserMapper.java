@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.supplier.UpdateSupplierDto;
+import com.example.demo.dto.user.UpdateUserDto;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.dto.user.UserResponseDto;
 import com.example.demo.entity.Supplier;
@@ -25,13 +26,12 @@ public class UserMapper {
 
         return entity;
     }
-    public User userEntityFromDto(User entity, UserDto dto ) {
+    public User userEntityFromDto(User entity, UpdateUserDto dto ) {
         if (entity == null || dto ==null){
             return null;
         }
         entity.setName(dto.getName());
-        entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
+        entity.setAge(dto.getAge());
         entity.setRole(dto.getRole());
         entity.setAddress(dto.getAddress());
 

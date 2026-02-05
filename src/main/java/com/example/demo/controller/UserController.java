@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.user.UpdateUserDto;
 import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +30,13 @@ public class UserController {
     //use for creating /inserting record
     // request body = payload
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createUser(@RequestBody UserDto payload) {
+    public ResponseEntity<BaseResponseModel> createUser(@Valid @RequestBody UserDto payload) {
         return userService.createUser(payload);
     }
 
     //endpoint  /api/v1/user/{id}
     @PutMapping("/{user_id}")
-    public ResponseEntity<BaseResponseModel> updateUser(@PathVariable("user_id") Long userId, @RequestBody UserDto payload) {
+    public ResponseEntity<BaseResponseModel> updateUser(@PathVariable("user_id") Long userId, @Valid @RequestBody UpdateUserDto payload) {
         return userService.updateUser(payload,userId);
     }
    //Path variable
