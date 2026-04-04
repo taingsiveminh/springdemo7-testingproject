@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.user.ChangePasswordUserDto;
 import com.example.demo.dto.user.UpdateUserDto;
 import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
@@ -44,6 +45,12 @@ public class UserController {
     public ResponseEntity<BaseResponseModel> deleteUser (@PathVariable("user_id") Long userId) {
          return userService.deleteUser(userId);
     }
+    @PatchMapping("/{user_id}/change-password")
+    public ResponseEntity<BaseResponseModel> changePassword(@PathVariable("user_id") Long userId, @RequestBody
+     ChangePasswordUserDto payload) {
+       return userService.changePassword(payload, userId);
+    }
+
     }
 
 

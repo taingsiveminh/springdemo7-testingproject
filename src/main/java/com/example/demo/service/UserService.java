@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.user.ChangePasswordUserDto;
 import com.example.demo.dto.user.UpdateUserDto;
 import com.example.demo.dto.user.UserResponseDto;
 import com.example.demo.entity.User;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.BaseResponseModel;
 import com.example.demo.model.BaseResponseWithDataModel;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -103,5 +106,24 @@ public class UserService {
         // 200 ok
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new BaseResponseModel("success", "User deleted successfully"));
+
+    }
+    public ResponseEntity<BaseResponseModel> changePassword(ChangePasswordUserDto payload, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found with id:"+ userId));
+        //old password is incorrect
+        if(!Objects.equals(user.getPassword(), payload.getOldPassword())){
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(new BaseResponseModel("fail","old password is incorrect please enter the correct password"));
+        }
+        if (!Objects.equals(payload.getNewPassword(), payload.getConfirmPassword())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new BaseResponseModel("fail","new password and confirm password must be the same"));
+        }
+        mapper.updateEntityChangePassword(user, payload.getNewPassword());
+        userRepository.save(user);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseModel("success","password changed successfully"));
     }
 }

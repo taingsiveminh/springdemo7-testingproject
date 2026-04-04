@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.supplier.UpdateSupplierDto;
+import com.example.demo.dto.user.ChangePasswordUserDto;
 import com.example.demo.dto.user.UpdateUserDto;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.dto.user.UserResponseDto;
@@ -62,5 +63,8 @@ public class UserMapper {
                 .collect(Collectors.toList());
     }
 
+    public void updateEntityChangePassword(User entity, String password) {
+        entity.setPassword(password);
+    }
 
 }

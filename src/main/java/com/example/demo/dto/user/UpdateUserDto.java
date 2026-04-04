@@ -1,5 +1,7 @@
 package com.example.demo.dto.user;
 
+import com.example.demo.common.enums.annotations.ValidEnum;
+import com.example.demo.common.enums.enums.Role;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,6 +19,9 @@ public class UpdateUserDto {
     @NotNull(message = "address is required ")
     @Size(min = 5, max = 50, message = "address must be between 5 and 50 characters")
     private String address;
+
+    @NotNull(message = "role is required ")
+    @ValidEnum(enumClass = Role.class, message = "Role must be in [USER,AMIN}")
     private String role;
 
 }
