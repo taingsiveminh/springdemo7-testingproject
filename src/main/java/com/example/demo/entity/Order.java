@@ -15,7 +15,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-private String status = OrderStatus.PENDING.name();
+    private String status = OrderStatus.PENDING.name();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
@@ -25,4 +25,12 @@ private String status = OrderStatus.PENDING.name();
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+    @PreUpdate
+    private void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
