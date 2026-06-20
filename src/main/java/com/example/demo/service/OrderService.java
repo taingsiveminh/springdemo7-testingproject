@@ -7,6 +7,7 @@ import com.example.demo.entity.OrderItem;
 import com.example.demo.entity.Stock;
 import com.example.demo.mapper.OrderMapper;
 import com.example.demo.model.BaseResponseModel;
+import com.example.demo.model.BaseResponseWithDataModel;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.StockRepository;
 import jakarta.transaction.Transactional;
@@ -27,8 +28,13 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private StockRepository stockRepository;
-
+    private StockRepository
+            stockRepository;
+    public ResponseEntity<BaseResponseWithDataModel> listOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseWithDataModel("success", "successfully retrieved orders", mapper.toResponseDtoList(orders)));
+    }
     @Transactional
     public ResponseEntity<BaseResponseModel> createOrder(OrderDto payload) {
         // maps for product ids
@@ -48,7 +54,7 @@ public class OrderService {
         // [1,3]
         for (Long ProductId: requiredQuantities.keySet()){
             // quantity to deduct
-            int remain = requiredQuantities.get(productIds);
+            int remain = requiredQuantities.get(ProductId);
 
             // filter stocks by product id
             List<Stock> stocksByProduct = stocks.stream()
